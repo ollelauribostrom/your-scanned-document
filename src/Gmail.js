@@ -1,20 +1,22 @@
 const path = require('path');
 const { google } = require('googleapis');
 const { PubSub } = require('@google-cloud/pubsub');
-const getGmailToken = require('../utils/getGmailToken');
-const getGmailCredentials = require('../utils/getGmailCredentials');
-const saveImage = require('../utils/saveImage');
+const getGmailToken = require('./utils/getGmailToken');
+const getGmailCredentials = require('./utils/getGmailCredentials');
+const saveFile = require('./utils/saveFile');
+const createTmpDirectory = require('./utils/createTmpDirectory');
 
 class Gmail {
-  constructor(options = {}) {
+  constructor(options = {}, onAttachment) {
     this.scope = options.scope || ['https://www.googleapis.com/auth/gmail.readonly'];
-    this.tokenPath = options.tokenPath || path.resolve('./data/token.json')
-    this.credentialsPath = options.credentialsPath || path.resolve('./data/credentials.json');
+    this.tokenPath = options.tokenPath || path.resolve('./env/token.json')
+    this.credentialsPath = options.credentialsPath || path.resolve('./env/credentials.json');
     this.pubsub = new PubSub({
       projectId: 'your-scanned-doc-1547418741445',
-      keyFilename: path.resolve('./data/service.json')
+      keyFilename: path.resolve('./env/service.json')
     });
     this.lastHistoryId = null;
+    this.onAttachment = onAttachment;
   }
 
   async init() {
@@ -24,6 +26,7 @@ class Gmail {
     const token = await getGmailToken(auth, this.scope, this.tokenPath);
     auth.setCredentials(token);
     this.gmail = google.gmail({ version: 'v1', auth });
+    this.tmpDir = await createTmpDirectory();
   }
 
   async watch() {
@@ -61,9 +64,10 @@ class Gmail {
         messageId,
         userId: 'me'
       });
-      return { data: data, filename: attachment.filename }
+      return { data: data, filename: attachment.filename, outputDir: this.tmpDir }
     }));
-    await attachmentsData.forEach(saveImage)
+    const files = await Promise.all(attachmentsData.map(saveFile));
+    await this.onAttachment(files);
   }
 }
 
