@@ -22,7 +22,7 @@ class Gmail {
     } = await getGmailCredentials(this.credentialsPath);
     const auth = new google.auth.OAuth2(clientId, clientSecret, redirectUris[0]);
     const token = await getGmailToken(auth, this.scope, this.tokenPath);
-    this.lastHistoryId = await lastHistoryId.load(this.historyPath);
+    this.lastHistoryId = await lastHistoryId.get(this.historyPath);
     this.gmail = google.gmail({ version: 'v1', auth });
     auth.setCredentials(token);
   }
@@ -67,7 +67,7 @@ class Gmail {
 
   async setLastHistoryId(id) {
     this.lastHistoryId = id;
-    return lastHistoryId.save(id, this.historyPath);
+    return lastHistoryId.set(id, this.historyPath);
   }
 
   async parseMessage(message, onMessage) {

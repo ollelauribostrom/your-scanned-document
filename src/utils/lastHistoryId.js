@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-function load(historyPath) {
+function get(historyPath) {
   return new Promise((resolve) => {
     fs.readFile(historyPath, (err, data) => {
       if (err) {
@@ -12,7 +12,7 @@ function load(historyPath) {
   });
 }
 
-function save(id, historyPath) {
+function set(id, historyPath) {
   return new Promise((resolve, reject) => {
     fs.writeFile(historyPath, JSON.stringify({ id }), 'utf8', (err) => {
       if (err) {
@@ -24,4 +24,4 @@ function save(id, historyPath) {
 }
 
 
-module.exports = { load, save };
+module.exports = { get, set };
