@@ -5,7 +5,9 @@
   "scripts": {
     "start": "node ./src/index.js",
     "test": "jest",
+    "test:ci": "yarn coverage && yarn lint && yarn coveralls",
     "coverage": "jest --coverage",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
     "lint": "eslint src test"
   },
   "dependencies": {
