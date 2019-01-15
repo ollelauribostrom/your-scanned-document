@@ -7,7 +7,11 @@ function getGmailCredentials(credentialsPath) {
         return reject(err);
       }
       const credentials = JSON.parse(content);
-      return resolve(credentials.installed);
+      return resolve({
+        clientId: credentials.installed.client_id,
+        clientSecret: credentials.installed.client_secret,
+        redirectUris: credentials.installed.redirect_uris,
+      });
     });
   });
 }

@@ -1,8 +1,9 @@
 const { SiteClient } = require('datocms-client');
+
 const getDate = require('./utils/getDate');
 const getSlug = require('./utils/getSlug');
 
-class DatoCms {
+class DatoCMS {
   constructor(config) {
     this.client = new SiteClient(config.apiKey);
     this.workItemType = '57323';
@@ -48,4 +49,4 @@ class DatoCms {
   }
 }
 
-module.exports = DatoCms;
+module.exports = DatoCMS;

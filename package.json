@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "node ./src/index.js",
+    "dev": "node ./src/index.js",
+    "start": "NODE_ENV=production node ./src/index.js",
     "test": "jest",
     "test:ci": "yarn coverage && yarn lint && yarn coveralls",
     "coverage": "jest --coverage",
@@ -14,7 +15,8 @@
     "@google-cloud/pubsub": "^0.22.2",
     "datocms-client": "^0.8.11",
     "dotenv": "^6.2.0",
-    "googleapis": "^36.0.0"
+    "googleapis": "^36.0.0",
+    "winston": "^3.1.0"
   },
   "jest": {
     "collectCoverageFrom": [
