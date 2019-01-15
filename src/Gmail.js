@@ -15,7 +15,11 @@ class Gmail {
   }
 
   async init() {
-    const { clientId, clientSecret, redirectUris } = await getGmailCredentials(this.credentialsPath);
+    const {
+      clientId,
+      clientSecret,
+      redirectUris,
+    } = await getGmailCredentials(this.credentialsPath);
     const auth = new google.auth.OAuth2(clientId, clientSecret, redirectUris[0]);
     const token = await getGmailToken(auth, this.scope, this.tokenPath);
     this.lastHistoryId = await lastHistoryId.load(this.historyPath);
@@ -24,7 +28,12 @@ class Gmail {
   }
 
   async watch(onMessage) {
-    const { projectId, keyFilename, topicName, subscriptionName } = this.pubsubOptions;
+    const {
+      projectId,
+      keyFilename,
+      topicName,
+      subscriptionName,
+    } = this.pubsubOptions;
     await this.init();
     await this.gmail.users.watch({ userId: 'me', resource: { topicName } });
     const pubsub = new PubSub({ projectId, keyFilename });

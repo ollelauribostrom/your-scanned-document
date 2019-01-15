@@ -19,7 +19,7 @@ function getNewToken(oAuth2Client, scope, tokenPath) {
       access_type: 'offline',
       scope,
     });
-    console.log(`Authorize this app by visiting this url: ${authUrl}`);
+    console.log(`Authorize this app by visiting this url: ${authUrl}`); // eslint-disable-line
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -44,7 +44,7 @@ function saveToken(token, tokenPath) {
       if (err) {
         return reject(err);
       }
-      console.log(`Token saved to: ${tokenPath}`);
+      console.log(`Token saved to: ${tokenPath}`); // eslint-disable-line
       return resolve();
     });
   });
