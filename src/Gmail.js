@@ -9,11 +9,11 @@ const createTmpDirectory = require('./utils/createTmpDirectory');
 class Gmail {
   constructor(options = {}, onAttachment) {
     this.scope = options.scope || ['https://www.googleapis.com/auth/gmail.readonly'];
-    this.tokenPath = options.tokenPath || path.resolve('./env/token.json')
+    this.tokenPath = options.tokenPath || path.resolve('./env/token.json');
     this.credentialsPath = options.credentialsPath || path.resolve('./env/credentials.json');
     this.pubsub = new PubSub({
       projectId: 'your-scanned-doc-1547418741445',
-      keyFilename: path.resolve('./env/service.json')
+      keyFilename: path.resolve('./env/service.json'),
     });
     this.lastHistoryId = null;
     this.onAttachment = onAttachment;
@@ -21,8 +21,11 @@ class Gmail {
 
   async init() {
     const credentials = await getGmailCredentials(this.credentialsPath);
-    const {client_secret, client_id, redirect_uris} = credentials;
-    const auth = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+    const auth = new google.auth.OAuth2(
+      credentials.client_id,
+      credentials.client_secret,
+      credentials.redirect_uris[0],
+    );
     const token = await getGmailToken(auth, this.scope, this.tokenPath);
     auth.setCredentials(token);
     this.gmail = google.gmail({ version: 'v1', auth });
@@ -37,7 +40,7 @@ class Gmail {
       },
     });
     const subscription = this.pubsub.subscription('projects/your-scanned-doc-1547418741445/subscriptions/email-sub');
-    subscription.on('message', message => this.onMessage(message))
+    subscription.on('message', message => this.onMessage(message));
     return res.data;
   }
 
@@ -46,8 +49,8 @@ class Gmail {
     const data = JSON.parse(message.data);
     const history = await this.gmail.users.history.list({
       userId: 'me',
-      startHistoryId: this.lastHistoryId || data.historyId
-    })
+      startHistoryId: this.lastHistoryId || data.historyId,
+    });
     this.lastHistoryId = data.historyId;
     if (!history.data.history) {
       return;
@@ -55,16 +58,21 @@ class Gmail {
     const messageId = history.data.history[0].messages[0].id;
     const messageData = await this.gmail.users.messages.get({
       id: messageId,
-      userId: 'me'
-    })
-    const attachments = messageData.data.payload.parts.filter(part => part.filename && part.filename.length > 0)
-    const attachmentsData = await Promise.all(attachments.map(async attachment => {
-      const { data } = await this.gmail.users.messages.attachments.get({
+      userId: 'me',
+    });
+    const attachments = messageData.data.payload.parts
+      .filter(part => part.filename && part.filename.length > 0);
+    const attachmentsData = await Promise.all(attachments.map(async (attachment) => {
+      const { data: attachmentData } = await this.gmail.users.messages.attachments.get({
         id: attachment.body.attachmentId,
         messageId,
-        userId: 'me'
+        userId: 'me',
       });
-      return { data: data, filename: attachment.filename, outputDir: this.tmpDir }
+      return {
+        data: attachmentData,
+        filename: attachment.filename,
+        outputDir: this.tmpDir,
+      };
     }));
     const files = await Promise.all(attachmentsData.map(saveFile));
     await this.onAttachment(files);

@@ -1,11 +1,11 @@
 const path = require('path');
 const env = require('dotenv');
-const Gmail = require('./src/Gmail');
-const DatoCms = require('./src/DatoCms');
+const Gmail = require('./Gmail');
+const DatoCms = require('./DatoCms');
 
 env.load({ path: path.resolve('./env', '.env') });
 
-const gmail = new Gmail({}, onAttachment)
+const gmail = new Gmail({}, onAttachment);
 const cms = new DatoCms({ apiKey: process.env.DATO_CMS_APIKEY });
 
 gmail.init()
@@ -17,6 +17,6 @@ async function onAttachment(attachment) {
     title: await cms.getNextScanTitle(),
     description: 'This item was scanned and automatically uploaded',
     category: 'scanned',
-    files: attachment
-  })
+    files: attachment,
+  });
 }

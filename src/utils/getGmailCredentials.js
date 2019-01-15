@@ -7,9 +7,9 @@ function getGmailCredentials(credentialsPath) {
         return reject(err);
       }
       const credentials = JSON.parse(content);
-      return resolve(credentials.installed)
-    })
-  })
+      return resolve(credentials.installed);
+    });
+  });
 }
 
 module.exports = getGmailCredentials;

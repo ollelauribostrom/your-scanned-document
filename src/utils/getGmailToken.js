@@ -6,11 +6,11 @@ function getGmailToken(oAuth2Client, scope, tokenPath) {
   return new Promise((resolve) => {
     fs.readFile(tokenPath, (err, token) => {
       if (err) {
-        return getNewToken(oAuth2Client, scope, tokenPath)
+        return getNewToken(oAuth2Client, scope, tokenPath);
       }
-      resolve(JSON.parse(token));
+      return resolve(JSON.parse(token));
     });
-  })
+  });
 }
 
 function getNewToken(oAuth2Client, scope, tokenPath) {
@@ -29,25 +29,25 @@ function getNewToken(oAuth2Client, scope, tokenPath) {
       oAuth2Client.getToken(code, (err, token) => {
         if (err) {
           reject(err);
-        };
+        }
         saveToken(token, tokenPath)
           .then(() => resolve(token))
-          .catch(err => reject(err));
+          .catch(tokenError => reject(tokenError));
       });
     });
-  })
+  });
 }
 
 function saveToken(token, tokenPath) {
   return new Promise((resolve, reject) => {
-    fs.writeFile(tokenPath, JSON.stringify(token), err => {
+    fs.writeFile(tokenPath, JSON.stringify(token), (err) => {
       if (err) {
-        reject(err)
+        return reject(err);
       }
       console.log(`Token saved to: ${tokenPath}`);
-      resolve();
+      return resolve();
     });
-  })
-} 
+  });
+}
 
 module.exports = getGmailToken;

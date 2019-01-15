@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js",
+    "start": "node ./src/index.js",
     "test": "jest",
     "coverage": "jest --coverage",
     "lint": "eslint src test"
@@ -21,6 +21,7 @@
     "coverageDirectory": "<rootDir>/coverage"
   },
   "devDependencies": {
+    "coveralls": "^3.0.2",
     "eslint": "^5.12.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",

@@ -11,7 +11,7 @@ function createTmpDirectory() {
       }
       return resolve(dir);
     });
-  })
+  });
 }
 
 module.exports = createTmpDirectory;
