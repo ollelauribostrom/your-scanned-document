@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/ollelauribostrom/your-scanned-document.svg?branch=master)](https://travis-ci.org/ollelauribostrom/your-scanned-document)
 [![Coverage Status](https://coveralls.io/repos/github/ollelauribostrom/your-scanned-document/badge.svg?branch=master)](https://coveralls.io/github/ollelauribostrom/your-scanned-document?branch=master)
 
-My friend [Felix Dahlström Persson](http://felixdahlstrom.com/) attends the Oslo National Academy of the Arts (Kunstakademiet). He sometimes uses the school's scanner to scan drawings that he makes. This repo contains a Node.js application that automatically recives and uploads these scanned drawings to Felix portfolio.
+My friend [Felix Dahlström Persson](http://felixdahlstrom.com/) attends the Oslo National Academy of the Arts (Kunstakademiet). He sometimes uses the school's scanner to scan drawings that he makes. This repo contains a Node.js application that automatically recives and uploads these scanned drawings to [Felix portfolio](https://github.com/ollelauribostrom/dahlstrom).
 
 **Find out what is currently being scanned at [felixdahlstrom.com/scanned](https://felixdahlstrom.com/scanned-documents/)**
 
