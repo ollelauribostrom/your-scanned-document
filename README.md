@@ -5,7 +5,7 @@
 
 My friend [Felix Dahlström Persson](http://felixdahlstrom.com/) attends the Oslo National Academy of the Arts (Kunstakademiet). He sometimes uses the school's scanner to scan drawings that he makes. This repo contains a Node.js application that automatically recives and uploads these scanned drawings to [Felix portfolio](https://github.com/ollelauribostrom/dahlstrom).
 
-**Find out what is currently being scanned at [felixdahlstrom.com/scanned](https://felixdahlstrom.com/scanned-documents/)**
+**🖨️ Find out what is currently being scanned at [felixdahlstrom.com/scanned](https://felixdahlstrom.com/scanned-documents/)**
 
 How does it work?
 -----------------
