@@ -10,11 +10,13 @@ class DatoCMS {
   }
 
   async postWorkItem(item) {
+    const images = await this.uploadFiles(item.files);
     return this.client.items.create({
       title: item.title,
       description: item.description,
       category: await this.getCategoryId(item.category),
-      images: await this.uploadFiles(item.files),
+      images,
+      featuredImage: images[0],
       date: getDate(),
       itemType: this.workItemType,
       slug: getSlug(item.title),
