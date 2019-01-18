@@ -7,6 +7,7 @@ class DatoCMS {
   constructor(config) {
     this.client = new SiteClient(config.apiKey);
     this.workItemType = '57323';
+    this.deployId = '3473';
   }
 
   async postWorkItem(item) {
@@ -48,6 +49,10 @@ class DatoCMS {
     const scannedItems = workItems.filter(item => item.category === '620944');
     const nextId = scannedItems.length + 1;
     return `Scanned item ${nextId}`;
+  }
+
+  async deploy() {
+    return this.client.deploymentEnvironments.trigger(this.deployId);
   }
 }
 

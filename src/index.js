@@ -41,7 +41,9 @@ async function onMail(err, mail) {
         files: await Promise.all(mail.attachments.map(saveFile)),
       });
       await Promise.all(mail.attachments.map(removeFile));
-      logger.info('Attachment(s) saved to DatoCMS\n');
+      logger.info('Attachment(s) saved to DatoCMS');
+      await cms.deploy();
+      logger.info('Site deployed\n');
     }
   } catch (error) {
     logger.error(error);
