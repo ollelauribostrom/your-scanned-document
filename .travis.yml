@@ -17,3 +17,9 @@ install:
   - yarn
 script:
   - yarn test:ci
+deploy:
+  provider: script
+  script: bash ./bin/publish.sh
+  skip_cleanup: true
+  on:
+    branch: master
