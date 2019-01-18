@@ -34,10 +34,10 @@ class DatoCMS {
     });
   }
 
-  async getCategoryId(name) {
+  async getCategoryId(slug) {
     const [category] = await this.client.items.all({
       'filter[type]': '57351',
-      'filter[query]': name,
+      'filter[query]': slug,
     });
     return category.id;
   }
@@ -48,7 +48,7 @@ class DatoCMS {
     });
     const scannedItems = workItems.filter(item => item.category === '620944');
     const nextId = scannedItems.length + 1;
-    return `Scanned item ${nextId}`;
+    return `Scanned document ${nextId}`;
   }
 
   async deploy() {

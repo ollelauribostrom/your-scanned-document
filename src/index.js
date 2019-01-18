@@ -36,8 +36,8 @@ async function onMail(err, mail) {
     if (mail.attachments.length > 0) {
       await cms.postWorkItem({
         title: await cms.getNextScanTitle(),
-        description: 'This item was scanned and automatically uploaded',
-        category: 'scanned',
+        description: 'This item was scanned and automatically uploaded using a Xerox Multifunction Printer',
+        category: 'scanned-documents',
         files: await Promise.all(mail.attachments.map(saveFile)),
       });
       await Promise.all(mail.attachments.map(removeFile));
