@@ -48,7 +48,7 @@ class DatoCMS {
     });
     const scannedItems = workItems.filter(item => item.category === '620944');
     const nextId = scannedItems.length + 1;
-    return `Scanned document ${nextId}`;
+    return `Scanned document #${nextId}`;
   }
 
   async deploy() {
