@@ -1,6 +1,7 @@
 const { google } = require('googleapis');
 const { PubSub } = require('@google-cloud/pubsub');
 
+const getFrom = require('./utils/getFrom');
 const getGmailToken = require('./utils/getGmailToken');
 const getGmailCredentials = require('./utils/getGmailCredentials');
 const lastHistoryId = require('./utils/lastHistoryId');
@@ -81,13 +82,19 @@ class Gmail {
       const history = await this.getHistory(this.lastHistoryId);
       const { id } = history.data.history[0].messages[0];
       const { data } = await this.getMessage(id);
+      const from = getFrom(data.payload.headers);
       const attachments = await Promise.all(
         data.payload.parts
           .filter(({ filename }) => filename && filename.length > 0)
           .map(({ body, filename }) => this.getAttachment(body.attachmentId, filename, id)),
       );
       await this.setLastHistoryId(messageData.historyId);
-      onMessage(null, { id, data, attachments });
+      onMessage(null, {
+        id,
+        from,
+        data,
+        attachments,
+      });
     } catch (err) {
       onMessage(err);
     }
