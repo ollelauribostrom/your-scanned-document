@@ -1,5 +1,9 @@
 function getSlug(title) {
-  return title.split(' ').join('-').toLowerCase();
+  return title
+    .split(' ')
+    .join('-')
+    .replace('#', '')
+    .toLowerCase();
 }
 
 module.exports = getSlug;
