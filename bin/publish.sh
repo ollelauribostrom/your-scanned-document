@@ -1,24 +1,14 @@
 #!/bin/bash
 
-# Stop any running instance
-if [ -d /home/travis/your-scanned-document ]
-  then 
-    cd /home/travis/your-scanned-document
-    yarn forever stopall
-    cd /home/travis/
-    rm -rf /home/travis/your-scanned-document
-    echo "[✓] Stopped running instance \n"
-fi
+# Read environment from ./env/.env
+set -a
+. ./env/.env
+set +a
 
-# Clone the source
-git clone https://github.com/ollelauribostrom/your-scanned-document.git /home/travis/your-scanned-document
-cd /home/travis/your-scanned-document
-echo "[✓] Cloned ollelauribostrom/your-scanned-document \n"
+# Copy /env -> remote
+scp -r ./env $USER@$REMOTE:$ROOT/env > /dev/null
+echo "[✓] Copied /env -> remote"
 
-# Install dependencies
-yarn install --production
-echo "[✓] Installed dependencies \n"
-
-# Start
-yarn start
-echo "[✓] Started the application \n"
+# SSH -> remote
+echo "[✓] SSH -> remote"
+ssh -t $USER@$REMOTE ROOT=$ROOT 'bash -s' < ./bin/remote.sh
