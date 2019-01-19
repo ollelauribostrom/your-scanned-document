@@ -8,6 +8,7 @@ const removeFileFrom = require('./utils/removeFileFrom');
 const createTmpDirectory = require('./utils/createTmpDirectory');
 const getGmailConfig = require('./utils/getGmailConfig');
 const logger = require('./utils/logger');
+const isTrusted = require('./utils/isTrusted');
 
 env.load({ path: path.resolve('./env', '.env') });
 
@@ -32,8 +33,11 @@ async function onMail(err, mail) {
     if (err) {
       throw err;
     }
-    logger.info('Email received');
-    if (mail.attachments.length > 0) {
+    const trustListPath = path.resolve('./env/trusted.json');
+    const trusted = await isTrusted(mail.from, trustListPath);
+    const trustWord = trusted ? 'trusted' : 'untrusted';
+    logger.info(`Email received (${trustWord} sender)`);
+    if (mail.attachments.length > 0 && trusted) {
       await cms.postWorkItem({
         title: await cms.getNextScanTitle(),
         description: 'This item was scanned and automatically uploaded using a Xerox Multifunction Printer',
