@@ -7,7 +7,7 @@ function isTrusted(from, trustListPath) {
         return reject(err);
       }
       const trustList = JSON.parse(data);
-      return resolve(trustList.includes(from.toLowercase()));
+      return resolve(trustList.includes(from.toLowerCase()));
     });
   });
 }
