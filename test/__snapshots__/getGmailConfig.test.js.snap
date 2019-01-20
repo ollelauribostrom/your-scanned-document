@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tests for getGmailConfig returns a config object 1`] = `
+Object {
+  "credentialsPath": "/Users/ollelauribostrom/Desktop/your-scanned-document/env/gmail-credentials.json",
+  "historyPath": "/Users/ollelauribostrom/Desktop/your-scanned-document/env/history.json",
+  "pubsubOptions": Object {
+    "keyFilename": "/Users/ollelauribostrom/Desktop/your-scanned-document/env/service-credentials.json",
+    "projectId": "your-scanned-doc-1547418741445",
+    "subscriptionName": "projects/your-scanned-doc-1547418741445/subscriptions/email-sub",
+    "topicName": "projects/your-scanned-doc-1547418741445/topics/gmail",
+  },
+  "scope": Array [
+    "https://www.googleapis.com/auth/gmail.readonly",
+  ],
+  "tokenPath": "/Users/ollelauribostrom/Desktop/your-scanned-document/env/token.json",
+}
+`;
