@@ -1,16 +1,16 @@
 function getDate() {
   const now = new Date();
   const year = now.getFullYear();
-  const month = formatMonth(now.getMonth());
-  const date = now.getDate();
+  const month = zeroPad(now.getMonth() + 1);
+  const date = zeroPad(now.getDate());
   return `${year}-${month}-${date}`;
 }
 
-function formatMonth(month) {
-  if (month < 10) {
-    return `0${month + 1}`;
+function zeroPad(value) {
+  if (value < 10) {
+    return `0${value}`;
   }
-  return `${month + 1}`;
+  return `${value}`;
 }
 
 module.exports = getDate;
